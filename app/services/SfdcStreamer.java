@@ -29,14 +29,14 @@ public class SfdcStreamer {
 
     public void start(final Printer out) {
         client.handshake();
-        out.println("Waiting for handshake");
+        out.println("Waiting for handshake ...");
 
         boolean handshaken = client.waitFor(10 * 1000, BayeuxClient.State.CONNECTED);
         if (!handshaken) {
             out.println("Failed to handshake: " + client);
         }
 
-        out.println("Subscribing for channel: " + CHANNEL);
+        out.println("Subscribing for channel: " + CHANNEL + " ...");
 
         client.getChannel(CHANNEL).subscribe(new MessageListener() {
             @Override
@@ -44,6 +44,8 @@ public class SfdcStreamer {
                 out.println("Received Message: " + message);
             }
         });
+
+        out.println("Subscribed to channel: " + CHANNEL);
     }
 
     public void stop() {
